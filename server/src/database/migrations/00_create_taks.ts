@@ -5,9 +5,15 @@ export async function up(knex: Knex): Promise<void> {
     table.increments('id').primary();
     table.string('title').notNullable();
     table.string('description').notNullable();
-    table.string('status', 2).notNullable();
-    table.specificType('createdAt', 'DATETIME(6)');
-    table.specificType('updated_at', 'DATETIME(6)');
+    table.string('status').notNullable();
+
+    table.timestamp('created_at')
+      .defaultTo(knex.raw('CURRENT_TIMESTAMP'))
+      .notNullable();
+
+    table.timestamp('updated_at')
+      .defaultTo(knex.raw('CURRENT_TIMESTAMP'))
+      .notNullable();
   });
 }
 
