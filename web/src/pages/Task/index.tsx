@@ -10,6 +10,7 @@ import { FormHandles } from '@unform/core';
 import { FiPlusCircle, FiEdit, FiTrash } from 'react-icons/fi';
 
 import api from '../../services/api';
+import ModalAddTask from '../../components/ModalAddTask';
 import ModalEditTask from '../../components/ModalEditTask';
 
 import { Header, Title, Form, Tasks } from './styles';
@@ -24,6 +25,7 @@ interface ITask {
 const Task: React.FC = () => {
   const [tasks, setTasks] = useState<ITask[]>([]);
   const [editingTask, setEditingTask] = useState<ITask>({} as ITask);
+  const [addModalOpen, setAddModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
   const formRef = useRef<FormHandles>(null);
@@ -80,8 +82,29 @@ const Task: React.FC = () => {
     }
   }
 
+  function toggleAddModal(): void {
+    setAddModalOpen(!addModalOpen);
+  }
+
   function toggleEditModal(): void {
     setEditModalOpen(!editModalOpen);
+  }
+
+  async function handleAddTask(
+    task: Omit<ITask, 'id' | 'status'>,
+  ): Promise<void> {
+    try {
+      const response = await api.post('/tasks', {
+        ...task,
+        status: 'em aberto'
+      });
+
+      console.log(response.data);
+
+      setTasks([...tasks, response.data]);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   function handleEditTask(task: ITask): void {
@@ -94,7 +117,7 @@ const Task: React.FC = () => {
     <>
       <Header>
         <Title>Pesquise uma tarefa</Title>
-        <button>
+        <button onClick={() => toggleAddModal()}>
           <FiPlusCircle />
         </button>
       </Header>
@@ -124,6 +147,12 @@ const Task: React.FC = () => {
           </div>
         ))}        
       </Tasks>
+
+      <ModalAddTask
+        isOpen={addModalOpen}
+        setIsOpen={toggleAddModal}
+        handleAddTask={handleAddTask}
+      />
 
       <ModalEditTask
         isOpen={editModalOpen}
