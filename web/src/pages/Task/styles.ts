@@ -1,5 +1,28 @@
 import styled from 'styled-components';
+import { Form as Unform } from '@unform/web';
 import { shade } from 'polished';
+
+export const Header = styled.header`
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  position: relative;
+
+  button {
+    margin-left: auto;
+    background: transparent;
+    border: 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  
+  svg {
+    color: #F05C36;
+    width: 50px;
+    height: 50px;
+  }
+`;
 
 export const Title = styled.h1`
   color: #F69339;
@@ -9,10 +32,10 @@ export const Title = styled.h1`
   max-width: 450px;
 `;
 
-export const Form = styled.form`
+export const Form = styled(Unform)`
   display: flex;
   margin-top: 40px;
-  max-width: 700px;
+  max-width: 100%;
 
   input {
     flex: 1;
@@ -47,7 +70,7 @@ export const Form = styled.form`
 
 export const Tasks = styled.div`
   margin-top: 64px;
-  max-width: 700px;
+  max-width: 100%;
 
   div {
     background: #fff;
@@ -67,7 +90,7 @@ export const Tasks = styled.div`
     }
 
     button {
-        background: #FFF;
+        background: transparent;
         padding: 10px;
         border-radius: 8px;
         display: flex;
