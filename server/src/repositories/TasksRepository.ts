@@ -18,7 +18,7 @@ class TasksRepository {
       status,
     });
 
-    response.json({ success: true });
+    return response.json({ title, description, status });
   }
 
   async update(request: Request, response: Response) {
@@ -35,7 +35,7 @@ class TasksRepository {
       .where({id})
       .update({ title, description });
     
-    response.json({ success: true });
+    return response.json({ success: true });
   }
 
   async delete(request: Request, response: Response) {
@@ -51,7 +51,7 @@ class TasksRepository {
       .where({id})
       .del();
   
-    response.json({ success: true });
+    return response.json({ success: true });
   }
 }
 
